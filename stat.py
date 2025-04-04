@@ -67,3 +67,17 @@ plt.subplot(1, 2, 2)
 stats.probplot(geq4, dist='norm', plot=plt)
 plt.title('QQ-plot (>4 часов)')
 plt.show()
+
+plt.figure(figsize=(10, 6))
+sns.ecdfplot(data=leq4, label='≤5 часов/день', linewidth=2)
+sns.ecdfplot(data=geq4, label='>5 часов/день', linewidth=2)
+
+plt.title('Эмпирическая функция распределения (ECDF) тревожности', fontsize=14)
+plt.xlabel('Уровень тревожности', fontsize=12)
+plt.ylabel('Вероятность', fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.legend(fontsize=12)
+plt.xticks(np.arange(0, 11, 1))
+
+plt.tight_layout()
+plt.show()
