@@ -12,8 +12,8 @@ data = pd.read_csv('mxmh_survey_results.csv')
 # Преобразование "Hours per day" в "Hours per week" (предполагая 7 дней)
 data['Hours per week'] = data['Hours per day'] * 7
 
-leq4 = data[data['Hours per day'] <= 4]['Anxiety'].dropna()  # ≤5 часов
-geq4 = data[data['Hours per day'] > 4]['Anxiety'].dropna()     # >5 часов
+leq4 = data[data['Hours per day'] <= 3]['Anxiety'].dropna()  # ≤5 часов
+geq4 = data[data['Hours per day'] > 3]['Anxiety'].dropna()     # >5 часов
 '''
 plt.figure(figsize=(8, 4))
 sns.histplot(data['Hours per day'], bins=20, kde=True)
@@ -37,23 +37,23 @@ def describe_stats(data, name):
 
 
 stats_df = pd.concat([
-    describe_stats(leq4, '≤4 часов/день'),
-    describe_stats(geq4, '>4 часов/день')
+    describe_stats(leq4, '≤3 часов/день'),
+    describe_stats(geq4, '>3 часов/день')
 ], axis=1)
 print(stats_df)
 
 plt.figure(figsize=(12, 5))
 plt.subplot(1, 2, 1)
 sns.histplot(leq4, bins=10, kde=True, color='blue')
-plt.title('Тревожность (≤4 часов/день)')
+plt.title('Тревожность (≤3 часов/день)')
 
 plt.subplot(1, 2, 2)
 sns.histplot(geq4, bins=10, kde=True, color='red')
-plt.title('Тревожность (>4 часов/день)')
+plt.title('Тревожность (>3 часов/день)')
 plt.show()
 
 plt.figure(figsize=(8, 5))
-sns.boxplot(x=['≤4 часов']*len(leq4) + ['>4 часов']*len(geq4),
+sns.boxplot(x=['≤3 часов']*len(leq4) + ['>3 часов']*len(geq4),
             y=pd.concat([leq4, geq4]))
 plt.title('Распределение тревожности')
 plt.show()
@@ -61,16 +61,16 @@ plt.show()
 plt.figure(figsize=(12, 5))
 plt.subplot(1, 2, 1)
 stats.probplot(leq4, dist='norm', plot=plt)
-plt.title('QQ-plot (≤4 часов)')
+plt.title('QQ-plot (≤3 часов)')
 
 plt.subplot(1, 2, 2)
 stats.probplot(geq4, dist='norm', plot=plt)
-plt.title('QQ-plot (>4 часов)')
+plt.title('QQ-plot (>3 часов)')
 plt.show()
 
 plt.figure(figsize=(10, 6))
-sns.ecdfplot(data=leq4, label='≤5 часов/день', linewidth=2)
-sns.ecdfplot(data=geq4, label='>5 часов/день', linewidth=2)
+sns.ecdfplot(data=leq4, label='≤3 часов/день', linewidth=2)
+sns.ecdfplot(data=geq4, label='>3 часов/день', linewidth=2)
 
 plt.title('Эмпирическая функция распределения (ECDF) тревожности', fontsize=14)
 plt.xlabel('Уровень тревожности', fontsize=12)
